@@ -45,7 +45,7 @@ void print(vector<string> &vec, vector<size_t> &record)
 
 int main(void)
 {
-    ifstream ifs("D:/CPPstudy/menu.txt");
+    ifstream ifs("menu.txt");
     
     srand(time(NULL));
 

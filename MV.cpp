@@ -58,7 +58,7 @@ void print(map<string, size_t> &record)
 int main(void)
 {
 	// vector<map<string, size_t>> vee{{{"kevin", 5}, {"jason", 4}}};
-    ifstream ifs("D:/CPPstudy/menu.txt");
+    ifstream ifs("menu.txt");
     
     // 讀入檔案保存到 item 中 
     string str;
