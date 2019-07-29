@@ -9,14 +9,14 @@ using namespace std;
 void biggest(map<string, size_t> &record)
 {
 	string biggest_item_name;
-	size_t biggest_item_times = 0;
+	size_t biggest_item_times(0);
 	
 	// 眖いт程 
 	for(const auto& item : record)
 		if(item.second > biggest_item_times){
 			biggest_item_name = item.first;
 			biggest_item_times = item.second;
-		}	
+		}
 	// cout << "\n程琌:" << biggest_item_name << " " << "羆瞷: " << biggest_item_times << " Ω" << endl;
 	
 	// check
@@ -35,9 +35,9 @@ void biggest(map<string, size_t> &record)
 		cout << "\n程Ω计い匡程沧挡狦 ...\n\n" << endl;	
 		cout << same[rand() % same.size()] << " 程沧挡狦" << endl;
 	}
-	else
+	else{
 		cout << "\n程琌:" << biggest_item_name << " " << "羆瞷: " << biggest_item_times << " Ω" << endl;
-				 
+	}			 
 }
 
 void print(map<string, size_t> &record)
