@@ -22,8 +22,11 @@ public:
     item_info() = default;
     item_info(initializer_list<string>& name, initializer_list<size_t>& i) : item(name), times(i) {}
     void input(string &filepath);
-    void print();
-    size_t size()
+    void test_print();
+    void print(); // will delete same
+    void biggest();
+    void random(size_t n);
+    inline size_t size()
     {
         if(this->item.size() != this->times.size())
             throw runtime_error("item size not equal times size");
@@ -52,11 +55,72 @@ void item_info::input(string& filepath)
     ifstemp.close();
 }
 
-void item_info::print()
+void item_info::test_print()
 {
     for (size_t i = 0; i < this->size(); ++i)
         cout << this->item[i] << " " << this->times[i] << endl;
     
+}
+
+void item_info::print()
+{   
+    // 包含要印出 i, 所以終止條件不是 i < item.size() - 1
+    for(size_t i = 0; i < this->item.size();){
+        if(i + 1 < item.size() && this->item[i] == this->item[i+1]){
+            this->times[i+1] += this->times[i];
+            this->times.erase(this->times.begin() + i);
+            this->item.erase(this->item.begin() + i);
+        }
+        else{
+            cout << this->item[i] << " " << this->times[i] << endl;
+            ++i;
+            // 由於 erase 會移除元素，所以只需在非 erase 時遞增 i 
+        }
+    }
+}
+
+void item_info::random(size_t n)
+{
+    srand(time(NULL));
+    size_t t = 0;
+    for(size_t i = 0; i < n; ++i){
+        t = rand() % this->item.size();
+        ++this->times[t];
+        cout << t << " " << this->item[t] << endl;
+    }
+}
+
+void item_info::biggest()
+{
+    // 第一次找出最大值
+    // 第二次找出與最大值相同的值
+    item_info same;
+    size_t biggest = 0, pos = 0;
+
+    for(size_t i = 0; i < this->times.size(); ++i){
+        if(this->times[i] > biggest){
+            biggest = this->times[i];
+            pos = i;
+        }   
+    }
+
+    // 確認是否有最大值不只一個
+    bool flag = false;
+    for(size_t i = 0; i < this->times.size(); ++i){
+        if(biggest == this->times[i] && i != pos){
+            same.item.push_back(this->item[i]);
+            same.times.push_back(this->times[i]); 
+            flag = true;
+        }
+    }
+
+    if(!flag)
+        cout << "biggest is " << this->item[pos] << " " << this->times[pos] << endl;
+    else{
+        cout << "more than one maximum, and one final result will be randomly selected from them." << endl;
+        size_t i = rand() % same.item.size();
+        cout << "the final result is: " << same.item[i] << " " << same.times[i] << endl;
+    }
 }
 
 bool isnum(string& proportion)
@@ -94,13 +158,16 @@ void check(string& filepath)
 
 int main(void)
 {
-    string filepath("menu2.txt");
+    string filepath("C:/Users/create_vars/Documents/cpprepos/whattoeattonight/menu.txt");
     ifstream ifs(filepath);
     item_info list;
 
     check(filepath);
     list.input(filepath);
+    list.test_print();
+    list.random(10);
     list.print();
+    list.biggest();
 
     return 0;
 }
